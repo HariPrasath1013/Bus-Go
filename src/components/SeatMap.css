@@ -1,0 +1,137 @@
+.seatmap-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.legend {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+  color: #555;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.dot.available {
+  background: #3b82f6;
+}
+
+.dot.booked {
+  background: #ef4444;
+}
+
+.dot.selected {
+  background: #10b981;
+}
+
+.bus-shell {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px 32px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.deck-section {
+  margin-bottom: 8px;
+}
+
+.deck-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.deck-header h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.driver-icon {
+  font-size: 20px;
+}
+
+.deck-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seat-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.seat {
+  width: 52px;
+  height: 48px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.seat-available {
+  background: #3b82f6;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.35);
+}
+
+.seat-available:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.seat-selected {
+  background: #10b981;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.45);
+  transform: translateY(-2px);
+}
+
+.seat-selected:hover {
+  background: #059669;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.5);
+}
+
+.seat-booked {
+  background: #ef4444;
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.aisle {
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.deck-divider {
+  height: 2px;
+  background: linear-gradient(to right, transparent, #cbd5e1, transparent);
+  margin: 20px 0;
+}

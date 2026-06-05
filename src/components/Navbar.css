@@ -1,0 +1,126 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 64px;
+  background: linear-gradient(135deg, #0f2744 0%, #1a3a6e 50%, #1d4ed8 100%);
+  color: #fff;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+
+.brand-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #fff;
+  line-height: 1;
+  /* subtle gradient text on the brand name */
+  background: linear-gradient(135deg, #ffffff 30%, #bfdbfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-links {
+  display: flex;
+  gap: 6px;
+}
+
+.nav-link {
+  font-family: 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  padding: 7px 18px;
+  border-radius: 22px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.2px;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.25);
+}
+
+.nav-dropdown-wrap {
+  position: relative;
+}
+
+.nav-menu-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  padding: 7px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s;
+  display: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.nav-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.nav-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  min-width: 170px;
+  z-index: 200;
+}
+
+.nav-dropdown button {
+  width: 100%;
+  text-align: left;
+  padding: 13px 18px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.nav-dropdown button:hover {
+  background: #f1f5f9;
+}
+
+@media (max-width: 600px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-menu-btn {
+    display: block;
+  }
+}
