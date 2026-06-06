@@ -4,6 +4,8 @@ import BookingModal from '../components/BookingModal';
 import { useBooking } from '../context/BookingContext';
 import './ReservePage.css';
 
+const PRICE_PER_SEAT = 450;
+
 function ReservePage() {
   const { bookings } = useBooking();
   const [selectedSeats, setSelectedSeats] = useState(new Set());
@@ -13,14 +15,11 @@ function ReservePage() {
   const handleSeatClick = (seatNo) => {
     setSelectedSeats(prev => {
       const next = new Set(prev);
-      if (next.has(seatNo)) next.delete(seatNo);
-      else next.add(seatNo);
+      next.has(seatNo) ? next.delete(seatNo) : next.add(seatNo);
       return next;
     });
     setSuccessSeats([]);
   };
-
-  const handleClearSelection = () => setSelectedSeats(new Set());
 
   const handleSuccess = () => {
     setSuccessSeats([...selectedSeats].sort((a, b) => a - b));
@@ -28,20 +27,37 @@ function ReservePage() {
     setShowModal(false);
   };
 
-  const booked = bookings.length;
-  const available = 40 - booked;
-  const selectedArr = [...selectedSeats].sort((a, b) => a - b);
+  const booked       = bookings.length;
+  const selected     = selectedSeats.size;
+  const available    = 40 - booked - selected;
+  const total        = (selected * PRICE_PER_SEAT).toLocaleString('en-IN');
+  const selectedArr  = [...selectedSeats].sort((a, b) => a - b);
 
   return (
     <div className="reserve-page">
-      <div className="reserve-header">
-        <h1>Reserve Your Seat</h1>
-        <p>Click seats to select, then confirm your booking below</p>
-        <div className="stats-row">
-          <div className="stat-chip available-chip">{available} Available</div>
-          <div className="stat-chip selected-chip">{selectedSeats.size} Selected</div>
-          <div className="stat-chip booked-chip">{booked} Booked</div>
-          <div className="stat-chip total-chip">40 Total</div>
+      {/* Hero */}
+      <div className="hero">
+        <div className="live-badge">
+          <span className="live-dot" />
+          Live Seat Availability
+        </div>
+
+        <h1 className="hero-title">
+          Reserve Your <span className="accent">Seat</span>
+        </h1>
+        <p className="hero-quote">"Every journey begins with a single seat — make it yours."</p>
+
+        <div className="stat-pills">
+          <div className="stat-pill available-pill">{available} Available</div>
+          <div className="stat-pill selected-pill">{selected} Selected</div>
+          <div className="stat-pill booked-pill">{booked} Booked</div>
+          <div className="stat-total">40 Total</div>
+        </div>
+
+        <div className="legend">
+          <span className="legend-item"><span className="dot dot-available" />Available</span>
+          <span className="legend-item"><span className="dot dot-selected" />Selected</span>
+          <span className="legend-item"><span className="dot dot-booked" />Booked</span>
         </div>
       </div>
 
@@ -51,33 +67,31 @@ function ReservePage() {
         </div>
       )}
 
-      <SeatMap onSeatClick={handleSeatClick} selectedSeats={selectedSeats} />
+      {/* Bus card */}
+      <div className="bus-card">
+        <SeatMap onSeatClick={handleSeatClick} selectedSeats={selectedSeats} />
 
-      {selectedSeats.size > 0 && (
-        <div className="booking-bar">
-          <div className="booking-bar-seats">
-            <span className="booking-bar-label">Selected:</span>
-            {selectedArr.map(n => (
-              <span className="bar-seat-chip" key={n}>
-                Seat {n}
-                <button
-                  className="chip-remove"
-                  onClick={() => handleSeatClick(n)}
-                  title="Remove"
-                >×</button>
-              </span>
-            ))}
+        {/* Confirm section */}
+        <div className="confirm-section">
+          <div className="confirm-info">
+            <span className="confirm-label">
+              Seats selected: <strong>{selected}</strong>
+            </span>
+            <span className="price-display">
+              ₹{total} <small>total</small>
+            </span>
           </div>
-          <div className="booking-bar-actions">
-            <button className="btn-clear" onClick={handleClearSelection}>
-              Clear All
-            </button>
-            <button className="btn-book-now" onClick={() => setShowModal(true)}>
-              Book {selectedSeats.size} Seat{selectedSeats.size > 1 ? 's' : ''} →
-            </button>
-          </div>
+          <button
+            className="btn-confirm-seats"
+            disabled={selected === 0}
+            onClick={() => selected > 0 && setShowModal(true)}
+          >
+            {selected > 0
+              ? `Confirm ${selected} Seat${selected > 1 ? 's' : ''} — ₹${total} →`
+              : 'Select seats to continue →'}
+          </button>
         </div>
-      )}
+      </div>
 
       {showModal && (
         <BookingModal

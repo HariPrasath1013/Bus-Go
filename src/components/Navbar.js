@@ -2,27 +2,21 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
-function BusLogo() {
+function BusSVG() {
   return (
-    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Bus body */}
-      <rect x="3" y="8" width="30" height="18" rx="4" fill="white" fillOpacity="0.95"/>
-      {/* Windshield */}
-      <rect x="5" y="10" width="8" height="7" rx="1.5" fill="#60a5fa"/>
-      {/* Side windows */}
-      <rect x="15" y="10" width="5" height="5" rx="1" fill="#93c5fd"/>
-      <rect x="22" y="10" width="5" height="5" rx="1" fill="#93c5fd"/>
-      {/* Door */}
-      <rect x="28" y="12" width="3" height="8" rx="1" fill="#bfdbfe"/>
-      {/* Bottom stripe */}
-      <rect x="3" y="22" width="30" height="3" rx="1" fill="#3b82f6" fillOpacity="0.4"/>
-      {/* Wheels */}
-      <circle cx="10" cy="27" r="3.5" fill="#1e3a5f"/>
-      <circle cx="10" cy="27" r="1.5" fill="#94a3b8"/>
-      <circle cx="26" cy="27" r="3.5" fill="#1e3a5f"/>
-      <circle cx="26" cy="27" r="1.5" fill="#94a3b8"/>
-      {/* Undercarriage */}
-      <rect x="5" y="25" width="26" height="2" rx="1" fill="#1e3a5f" fillOpacity="0.3"/>
+    <svg viewBox="0 0 52 30" width="52" height="30" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="4" width="46" height="22" rx="4" fill="white" fillOpacity="0.95"/>
+      <rect x="3" y="6" width="10" height="8" rx="1.5" fill="#ef4444"/>
+      <rect x="15" y="6" width="7" height="6" rx="1" fill="#ef4444"/>
+      <rect x="24" y="6" width="7" height="6" rx="1" fill="#ef4444"/>
+      <rect x="33" y="6" width="7" height="6" rx="1" fill="#ef4444"/>
+      <rect x="43" y="8" width="4" height="10" rx="1" fill="#fca5a5"/>
+      <rect x="1" y="22" width="46" height="3" rx="1" fill="rgba(0,0,0,0.12)"/>
+      <circle cx="10" cy="27" r="3" fill="#1f2937"/>
+      <circle cx="10" cy="27" r="1.2" fill="#9ca3af"/>
+      <circle cx="38" cy="27" r="3" fill="#1f2937"/>
+      <circle cx="38" cy="27" r="1.2" fill="#9ca3af"/>
+      <rect x="47" y="12" width="4" height="4" rx="1" fill="#fbbf24"/>
     </svg>
   );
 }
@@ -38,9 +32,15 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="nav-brand" onClick={() => handleNav('/reserve')}>
-        <BusLogo />
-        <span className="brand-name">BusGo</span>
+      <div className="nav-left" onClick={() => handleNav('/reserve')}>
+        <div className="logo-box">
+          <div className="logo-text-wrap">
+            <span className="logo-bus">BUS</span>
+            <span className="logo-go">GO</span>
+          </div>
+          <BusSVG />
+        </div>
+        <span className="nav-tagline">BOOK · RIDE · ARRIVE</span>
       </div>
 
       <div className="nav-links">
@@ -53,13 +53,11 @@ function Navbar() {
       </div>
 
       <div className="nav-dropdown-wrap">
-        <button className="nav-menu-btn" onClick={() => setDropOpen(o => !o)}>
-          ☰ Menu
-        </button>
+        <button className="nav-menu-btn" onClick={() => setDropOpen(o => !o)}>☰</button>
         {dropOpen && (
           <div className="nav-dropdown">
-            <button onClick={() => handleNav('/reserve')}>🗺 Seat Map</button>
-            <button onClick={() => handleNav('/dashboard')}>📋 Bookings</button>
+            <button onClick={() => handleNav('/reserve')}>Reserve</button>
+            <button onClick={() => handleNav('/dashboard')}>Dashboard</button>
           </div>
         )}
       </div>

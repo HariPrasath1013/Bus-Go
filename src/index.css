@@ -1,15 +1,16 @@
-body {
-  margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background: #f0f4f8;
-  color: #1e293b;
-}
-
-h1, h2, h3, h4 {
-  font-family: 'Poppins', sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #0a0f1e;
+  color: #fff;
+  overflow-x: hidden;
+  min-height: 100vh;
 }

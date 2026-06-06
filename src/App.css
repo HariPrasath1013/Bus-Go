@@ -1,3 +1,71 @@
-* {
-  box-sizing: border-box;
+.app-root {
+  position: relative;
+  min-height: 100vh;
+  background: #0a0f1e;
+}
+
+/* Stars */
+.star {
+  position: fixed;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle var(--dur, 3s) ease-in-out var(--delay, 0s) infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1; }
+}
+
+/* Road */
+.road-layer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, #111827 60%, #0d1117);
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.road-lines {
+  position: absolute;
+  bottom: 18px;
+  left: -100px;
+  display: flex;
+  gap: 40px;
+  animation: roadMove 1.4s linear infinite;
+}
+
+.road-line {
+  width: 60px;
+  height: 4px;
+  background: #f59e0b;
+  border-radius: 2px;
+  opacity: 0.75;
+}
+
+@keyframes roadMove {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100px); }
+}
+
+/* Animations used by child components */
+@keyframes busFloat {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50%       { transform: translateY(-5px) rotate(1.5deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.5; }
+}
+
+.app-content {
+  position: relative;
+  z-index: 1;
 }
