@@ -65,7 +65,8 @@ function DashboardPage() {
       b.firstName.toLowerCase().includes(q) ||
       b.lastName.toLowerCase().includes(q) ||
       b.email.toLowerCase().includes(q) ||
-      String(b.seatNo).includes(q)
+      String(b.seatNo).toLowerCase().includes(q) ||
+      String(b.operator || '').toLowerCase().includes(q)
     );
   });
 
@@ -73,13 +74,14 @@ function DashboardPage() {
     <div className="dashboard-page">
       <div className="dash-header">
         <div>
-          <h1>Passenger Dashboard</h1>
+          <div className="dash-eyebrow">My trips</div>
+          <h1>Passenger manifest</h1>
           <p>{bookings.length} reservation{bookings.length !== 1 ? 's' : ''} found</p>
         </div>
         <input
           type="text"
           className="search-input"
-          placeholder="🔍  Search by name, email, seat..."
+          placeholder="Search by name, email, seat…"
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
@@ -87,9 +89,9 @@ function DashboardPage() {
 
       {bookings.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">🪑</div>
-          <h3>No bookings yet</h3>
-          <p>Head over to the reservation view to book a seat.</p>
+          <div className="empty-icon">🎟️</div>
+          <h3>No trips booked yet</h3>
+          <p>Search a route and pick your seats to get started.</p>
         </div>
       ) : filtered.length === 0 ? (
         <div className="empty-state">
@@ -104,6 +106,7 @@ function DashboardPage() {
               <tr>
                 <th>#</th>
                 <th>Seat</th>
+                <th>Bus</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
@@ -115,7 +118,8 @@ function DashboardPage() {
               {filtered.map((b, idx) => (
                 <tr key={b.id} className={editingId === b.id ? 'editing-row' : ''}>
                   <td className="td-num">{idx + 1}</td>
-                  <td><span className="seat-chip">S{b.seatNo}</span></td>
+                  <td><span className="seat-chip">{b.seatNo}</span></td>
+                  <td className="td-operator">{b.operator || '—'}</td>
 
                   {editingId === b.id ? (
                     <>

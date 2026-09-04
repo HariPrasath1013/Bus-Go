@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import './BookingModal.css';
 import { useBooking } from '../context/BookingContext';
+import { formatINR } from '../data/trips';
+import './BookingModal.css';
 
-function BookingModal({ seatNos, onClose, onSuccess }) {
+function BookingModal({ seatNos, trip, total, onClose, onSuccess }) {
   const { addBookings } = useBooking();
 
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '' });
@@ -23,89 +24,110 @@ function BookingModal({ seatNos, onClose, onSuccess }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(f => ({ ...f, [name]: value }));
-    if (errors[name]) setErrors(er => ({ ...er, [name]: '' }));
+    setForm((f) => ({ ...f, [name]: value }));
+    if (errors[name]) setErrors((er) => ({ ...er, [name]: '' }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const errs = validate();
-    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
     setSubmitting(true);
     setTimeout(() => {
-      addBookings(seatNos.map(seatNo => ({ ...form, seatNo })));
+      addBookings(
+        seatNos.map((seatNo) => ({
+          ...form,
+          seatNo,
+          operator: trip ? trip.operator : '',
+          departure: trip ? trip.dep : '',
+        }))
+      );
       setSubmitting(false);
       onSuccess();
     }, 600);
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✕</button>
+    <div className="modal-scrim" onClick={onClose}>
+      <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+        <button type="button" className="modal-close" onClick={onClose}>
+          ✕
+        </button>
 
-        <div className="modal-header">
-          <div className="seat-badges">
-            {seatNos.map(n => (
-              <span className="seat-badge" key={n}>Seat {n}</span>
+        <div className="modal-head">
+          <div className="modal-eyebrow">Passenger details</div>
+          <h2 className="modal-title">Confirm your booking</h2>
+          {trip && (
+            <p className="modal-meta">
+              {trip.operator} · {trip.dep} → {trip.arr}
+            </p>
+          )}
+          <div className="modal-seats">
+            {seatNos.map((n) => (
+              <span className="modal-seat" key={n}>
+                Seat {n}
+              </span>
             ))}
           </div>
-          <h2>Confirm Your Booking</h2>
-          <p>
-            {seatNos.length === 1
-              ? 'Fill in your details to reserve this seat'
-              : `Fill in your details to reserve ${seatNos.length} seats`}
-          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="booking-form" noValidate>
+        <form onSubmit={handleSubmit} className="modal-form" noValidate>
           <div className="form-row">
-            <div className="field-group">
-              <label>First Name</label>
+            <div className="field">
+              <label htmlFor="firstName">First name</label>
               <input
+                id="firstName"
                 type="text"
                 name="firstName"
                 value={form.firstName}
                 onChange={handleChange}
                 placeholder="e.g. Hari"
-                className={errors.firstName ? 'error' : ''}
+                className={errors.firstName ? 'err' : ''}
                 autoFocus
               />
-              {errors.firstName && <span className="err-msg">{errors.firstName}</span>}
+              {errors.firstName && <span className="field-err">{errors.firstName}</span>}
             </div>
 
-            <div className="field-group">
-              <label>Last Name</label>
+            <div className="field">
+              <label htmlFor="lastName">Last name</label>
               <input
+                id="lastName"
                 type="text"
                 name="lastName"
                 value={form.lastName}
                 onChange={handleChange}
                 placeholder="e.g. Prasath"
-                className={errors.lastName ? 'error' : ''}
+                className={errors.lastName ? 'err' : ''}
               />
-              {errors.lastName && <span className="err-msg">{errors.lastName}</span>}
+              {errors.lastName && <span className="field-err">{errors.lastName}</span>}
             </div>
           </div>
 
-          <div className="field-group">
-            <label>Email Address</label>
+          <div className="field">
+            <label htmlFor="email">Email address</label>
             <input
+              id="email"
               type="email"
               name="email"
               value={form.email}
               onChange={handleChange}
               placeholder="you@example.com"
-              className={errors.email ? 'error' : ''}
+              className={errors.email ? 'err' : ''}
             />
-            {errors.email && <span className="err-msg">{errors.email}</span>}
+            {errors.email && <span className="field-err">{errors.email}</span>}
           </div>
 
-          <button type="submit" className="btn-confirm" disabled={submitting}>
+          <button type="submit" className="modal-submit" disabled={submitting}>
             {submitting
-              ? 'Booking...'
-              : `Confirm ${seatNos.length > 1 ? `${seatNos.length} Seats` : 'Booking'}`}
+              ? 'Confirming…'
+              : `Pay ${typeof total === 'number' ? formatINR(total) : ''}`.trim()}
           </button>
+          <p className="modal-fineprint">
+            Free cancellation up to 2 hours before departure.
+          </p>
         </form>
       </div>
     </div>
